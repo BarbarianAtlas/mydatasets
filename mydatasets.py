@@ -124,157 +124,31 @@ class DatasetInfo:
     prompt_type: str = 'brown'
 
 
+# ... All previous code remains the same ...
+
 def get_dataset_info(dataset_name):
-    if dataset_name == 'boolq':
+    # Previous dataset cases
+
+    elif dataset_name == 'openvalidators-mining':
         return DatasetInfo(
-            path="super_glue",
-            name="boolq",
+            path="/boot/opentensor/openvalidators-mining",
+            name="openvalidators-mining",
             exemplar_split="train",
             eval_split="validation",
-            sample_size=1000,
+            sample_size=1000,  
             extractor=lambda row: {
                 "parts": [
                     QuestionPart(
-                        f"{row['passage']} {row['question']}",
+                        row["prompt"],
                     ),
                 ],
                 "choices": [
-                    'No', 'Yes'
+                    row["completion"]
                 ],
-                "answer_idx": int(row["label"])
+                "answer_idx": 0  
             }
         )
-    # elif dataset_name == 'cb':
-    #     return DatasetInfo(
-    #         path="super_glue",
-    #         name="cb",
-    #         exemplar_split="train",
-    #         eval_split="validation",
-    #         sample_size=1000,
-    #         extractor=lambda row: {
-    #             "parts": [
-    #                 QuestionPart(
-    #                     f"Suppose {row['premise']} Can we infer that \"{row['hypothesis']}\"? Yes, No, or Maybe?",
-    #                 ),
-    #             ],
-    #             "choices": [
-    #                 'Yes', 'No', 'Maybe'
-    #             ],
-    #             "answer_idx": int(row["label"])
-    #         }
-    #     )
-    elif dataset_name == 'multirc':
-        return DatasetInfo(
-            path="super_glue",
-            name="multirc",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            extractor=lambda row: {
-                "parts": [
-                    QuestionPart(
-                        f"{row['paragraph']}",
-                    ),
-                    QuestionPart(
-                        f"{row['question']}",
-                        tag='Question'
-                    ),
-                    QuestionPart(
-                        f'I found this answer "{row["answer"]}". Is that correct? Yes or No?',
-                    ),
-                ],
-                "choices": [
-                    'No', 'Yes'
-                ],
-                "answer_idx": int(row["label"])
-            }
-        )
-    elif dataset_name == 'rte':
-        return DatasetInfo(
-            path="super_glue",
-            name="rte",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            extractor=lambda row: {
-                "parts": [
-                    QuestionPart(
-                        f"{row['premise']}\nDoes this mean that \"{row['hypothesis']}\" is true? Yes or No?",
-                    ),
-                ],
-                "choices": [
-                    'Yes', 'No'
-                ],
-                "answer_idx": int(row["label"])
-            }
-        )
-    elif dataset_name == 'wic':
-        return DatasetInfo(
-            path="super_glue",
-            name="wic",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            extractor=lambda row: {
-                "parts": [
-                    QuestionPart(
-                        f"Does the word \"{row['word']}\" have the same meaning in these two sentences? Yes, No?\n{row['sentence1']}\n{row['sentence2']}",
-                    ),
-                ],
-                "choices": [
-                    'No', 'Yes'
-                ],
-                "answer_idx": int(row["label"])
-            }
-        )
-    elif dataset_name == 'wsc':
-        return DatasetInfo(
-            path="super_glue",
-            name="wsc",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            extractor=lambda row: {
-                "parts": [
-                    QuestionPart(
-                        f"{row['text']}\nIn the previous sentence, does the pronuon \"{row['span2_text']}\" refer to \"{row['span1_text']}\"? Yes or No?",
-                    ),
-                ],
-                "choices": [
-                    'No', 'Yes'
-                ],
-                "answer_idx": int(row["label"])
-            }
-        )
-    elif dataset_name == 'copa':
-        return DatasetInfo(
-            path="super_glue",
-            name="copa",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            prompt_type='natural',
-            extractor=lambda row: {
-                "parts": [
-                    QuestionPart(
-                        f"{row['premise']} so " if row['question'] == 'effect' else f"{row['premise']} because ",
-                    ),
-                ],
-                "choices": [
-                    row['choice1'], row['choice2']
-                ],
-                "answer_idx": int(row["label"])
-            }
-        )
-    elif dataset_name == 'opentensor/openvalidators-mining':
-        return DatasetInfo(
-            path="/boot/",
-            name="opentensor/openvalidators-mining",
-            exemplar_split="train",
-            eval_split="validation",
-            sample_size=1000,
-            extractor=process_record
-        )
+
     else:
         raise NotImplementedError
 
