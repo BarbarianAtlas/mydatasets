@@ -126,8 +126,25 @@ class DatasetInfo:
 
 # ... All previous code remains the same ...
 
+class DatasetInfo:
+    def __init__(self, path, name, exemplar_split, eval_split, sample_size, extractor):
+        self.path = path
+        self.name = name
+        self.exemplar_split = exemplar_split
+        self.eval_split = eval_split
+        self.sample_size = sample_size
+        self.extractor = extractor
+
 def get_dataset_info(dataset_name):
-    # Previous dataset cases
+    if dataset_name == 'dataset1':
+        # Processing for 'dataset1'
+        pass
+
+    elif dataset_name == 'dataset2':
+        # Processing for 'dataset2'
+        pass
+
+    # ... Additional cases for other datasets ...
 
     elif dataset_name == 'openvalidators-mining':
         return DatasetInfo(
@@ -135,7 +152,7 @@ def get_dataset_info(dataset_name):
             name="openvalidators-mining",
             exemplar_split="train",
             eval_split="validation",
-            sample_size=1000,  
+            sample_size=1000,
             extractor=lambda row: {
                 "parts": [
                     QuestionPart(
@@ -145,12 +162,16 @@ def get_dataset_info(dataset_name):
                 "choices": [
                     row["completion"]
                 ],
-                "answer_idx": 0  
+                "answer_idx": 0
             }
         )
 
     else:
         raise NotImplementedError
+
+# ... Rest of the file remains unchanged ...
+
+
 
 
 def process_record(row):
